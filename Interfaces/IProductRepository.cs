@@ -1,5 +1,4 @@
 using pruebaAPI.Models;
-using System.Collections.Generic;
 
 namespace pruebaAPI.Repositories
 {
@@ -7,8 +6,8 @@ namespace pruebaAPI.Repositories
     {
         IEnumerable<ProductResponse> GetProducts();
         ProductResponse GetProduct(Guid id);
-        void AddProduct(ProductRequest product);
-        void UpdateProduct(Guid id, ProductRequest product);
+        void AddProduct(ProductRequest request);
+        void UpdateProduct(Guid id, ProductRequest request);
         void DeleteProduct(Guid id);
     }
 }
