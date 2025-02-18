@@ -1,0 +1,37 @@
+# Build Folders
+bin/
+obj/
+
+# Visual Studio specific
+.vs/
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+
+# Auto-generated files
+*_i.c
+*_p.c
+*_h.h
+*.ilk
+*.meta
+*.tmp
+*.log
+*.tlog
+*.lastbuildstate
+
+# NuGet Packages
+*.nupkg
+# Uncomment if necessary
+# packages/
+
+# DotNet Core
+project.lock.json
+project.fragment.lock.json
+
+# Resharper
+*.ReSharper
+
+# OS generated files
+.DS_Store
+Thumbs.db
