@@ -1,28 +1,23 @@
+using Microsoft.EntityFrameworkCore;
 using pruebaAPI.Data;
 using pruebaAPI.Models;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace pruebaAPI.Repositories
 {
-    public class ProductoRepository : IProductoRepository
+    public class ProductoRepository(ApplicationDbContext context) : IProductoRepository
     {
 
-        private readonly ApplicationDbContext _context;
-
-        public ProductoRepository(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+        private readonly ApplicationDbContext _context = context;
 
         public void AddProduct(ProductRequest request)
         {
 
-            var product = new Product{
+            var product = new Product
+            {
                 Id = Guid.NewGuid(),
                 Name = request.Name,
                 Description = request.Description,
-                Price = request.Price
+                Price = request.Price,
+                Category = request.Category
             };
             _context.Products.Add(product);
             _context.SaveChanges();
@@ -39,31 +34,38 @@ namespace pruebaAPI.Repositories
 
         public ProductResponse GetProduct(Guid id)
         {
-            var product = _context.Products.Find(id);
-            if(product == null)
-             return null;
+            var product = _context.Products.Include(product => product.Category).FirstOrDefault(product => product.Id == id);
+            if (product == null)
+                return null;
 
-            return new ProductResponse{
+            return new ProductResponse
+            {
                 Id = product!.Id,
                 Name = product.Name,
                 Description = product.Description,
-                Price = product.Price
+                Price = product.Price,
+                Category = product.Category
             };
         }
 
         public IEnumerable<ProductResponse> GetProducts() =>
-            _context.Products.Select(product => new ProductResponse{
+            _context.Products
+            .Include(product => product.Category)
+            .Select(product => new ProductResponse
+            {
                 Id = product.Id,
                 Name = product.Name,
                 Description = product.Description,
-                Price = product.Price
+                Price = product.Price,
+                Category = product.Category
             });
 
 
         public void UpdateProduct(Guid id, ProductRequest request)
         {
             var product = _context.Products.Find(id);
-            if(product != null){
+            if (product != null)
+            {
                 product.Name = request.Name;
                 product.Description = request.Description;
                 product.Price = request.Price;

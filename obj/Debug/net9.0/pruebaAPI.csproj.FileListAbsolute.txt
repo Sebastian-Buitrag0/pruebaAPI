@@ -122,3 +122,4 @@
 /Users/futurodigital005/Desktop/Prosoft/Proyectos/dotNet/pruebaAPI/obj/Debug/net9.0/pruebaAPI.pdb
 /Users/futurodigital005/Desktop/Prosoft/Proyectos/dotNet/pruebaAPI/obj/Debug/net9.0/pruebaAPI.genruntimeconfig.cache
 /Users/futurodigital005/Desktop/Prosoft/Proyectos/dotNet/pruebaAPI/obj/Debug/net9.0/ref/pruebaAPI.dll
+/Users/futurodigital005/Desktop/Prosoft/Proyectos/dotNet/pruebaAPI/obj/Debug/net9.0/pruebaAPI.sourcelink.json

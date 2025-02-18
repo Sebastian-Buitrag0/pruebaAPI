@@ -11,7 +11,6 @@ namespace pruebaAPI.Models
         public string? Description { get; set; }
         public decimal Price { get; set; }
 
-
         public Category? Category { set; get; }
     }
 }
