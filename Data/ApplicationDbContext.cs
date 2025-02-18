@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using pruebaAPI.Models;
 
+
 namespace pruebaAPI.Data
 {
     public class ApplicationDbContext : DbContext
