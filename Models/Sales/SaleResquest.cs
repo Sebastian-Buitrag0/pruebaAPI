@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace pruebaAPI.Models
 {
-    public class SalesRequest
+    public class SaleRequest
     {
         public DateTime SaleDate { set; get; }
         public double Amount { set; get; }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 namespace pruebaAPI.Models
 {
     [PrimaryKey(nameof(Id))]
-    public class SalesResponse
+    public class SaleResponse
     {
         public Guid Id { set; get; }
         public DateTime SaleDate { set; get; }
