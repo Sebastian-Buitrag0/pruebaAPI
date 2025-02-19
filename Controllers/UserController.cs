@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using pruebaAPI.Models;
-using pruebaAPI.Repositories;
+using pruebaAPI.Interfaces;
 
 namespace pruebaAPI.Controllers
 {

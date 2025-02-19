@@ -1,4 +1,5 @@
 using pruebaAPI.Data;
+using pruebaAPI.Interfaces;
 using pruebaAPI.Models;
 
 namespace pruebaAPI.Repositories
@@ -9,14 +10,23 @@ namespace pruebaAPI.Repositories
 
         public SaleResponse AddSale(SaleRequest request)
         {
+            var user = _context.Users.Find(request.User) ?? throw new KeyNotFoundException("User not found");
+            var products = new List<ProductSale>();
+            foreach (var productId in request.Products)
+            {
+                var product = _context.Products.Find(productId);
+                if (product == null)
+                    throw new KeyNotFoundException($"Product not found: {productId}");
+                products.Add(new ProductSale { Product = product });
+            }
             var sale = new Sale
             {
                 Id = Guid.NewGuid(),
                 SaleDate = request.SaleDate,
-                Amount = request.Amount,
-                Quantity = request.Quantity,
-                User = request.User,
-                Products = request.Products
+                User = user,
+                Products = products,
+                Amount = products.Sum(product => product.Product?.Price ?? 0),
+                Quantity = products.Count
             };
 
             _context.Sales.Add(sale);
@@ -76,11 +86,21 @@ namespace pruebaAPI.Repositories
             var sale = _context.Sales.Find(id);
             if (sale != null)
             {
+
+                var user = _context.Users.Find(request.User) ?? throw new KeyNotFoundException("User not found");
                 sale.SaleDate = request.SaleDate;
-                sale.Amount = request.Amount;
-                sale.Quantity = request.Quantity;
-                sale.User = request.User;
-                sale.Products = request.Products;
+                sale.User = user;
+                var products = new List<Product>();
+                foreach (var productId in request.Products)
+                {
+                    var product = _context.Products.Find(productId);
+                    if (product == null)
+                        throw new KeyNotFoundException($"Product not found: {productId}");
+                    products.Add(product);
+                }
+                sale.Products = products.Select(p => new ProductSale { Product = p }).ToList();
+                sale.Amount = products.Sum(product => product.Price);
+                sale.Quantity = products.Count;
 
                 _context.Sales.Update(sale);
                 _context.SaveChanges();

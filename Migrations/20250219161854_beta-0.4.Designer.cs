@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using pruebaAPI.Data;
@@ -11,9 +12,11 @@ using pruebaAPI.Data;
 namespace pruebaAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250219161854_beta-0.4")]
+    partial class beta04
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -120,9 +123,6 @@ namespace pruebaAPI.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("RoleId")
-                        .HasColumnType("uuid");
-
                     b.Property<Guid?>("UserDataId")
                         .HasColumnType("uuid");
 
@@ -130,8 +130,6 @@ namespace pruebaAPI.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
 
                     b.HasIndex("UserDataId");
 
@@ -190,15 +188,9 @@ namespace pruebaAPI.Migrations
 
             modelBuilder.Entity("pruebaAPI.Models.User", b =>
                 {
-                    b.HasOne("pruebaAPI.Models.Role", "Role")
-                        .WithMany()
-                        .HasForeignKey("RoleId");
-
                     b.HasOne("pruebaAPI.Models.UserData", "UserData")
                         .WithMany()
                         .HasForeignKey("UserDataId");
-
-                    b.Navigation("Role");
 
                     b.Navigation("UserData");
                 });

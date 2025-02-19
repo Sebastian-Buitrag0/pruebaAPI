@@ -1,4 +1,5 @@
 using pruebaAPI.Data;
+using pruebaAPI.Interfaces;
 using pruebaAPI.Models;
 
 namespace pruebaAPI.Repositories
@@ -13,12 +14,12 @@ namespace pruebaAPI.Repositories
             {
                 Name = request.Name,
                 LastName = request.LastName,
-                Birth = request.Birth, // assuming DataUserRequest has a DateOnly Birth property
+                Birth = request.Birth,
                 Email = request.Email,
                 Phone = request.Phone
             };
 
-            _context.DataUsers.Add(newDataUser);
+            _context.UsersData.Add(newDataUser);
             _context.SaveChanges();
 
             return new UserDataResponse
@@ -34,10 +35,10 @@ namespace pruebaAPI.Repositories
 
         public void DeleteDataUser(Guid id)
         {
-            var entity = _context.DataUsers.FirstOrDefault(u => u.Id == id);
+            var entity = _context.UsersData.FirstOrDefault(u => u.Id == id);
             if (entity != null)
             {
-                _context.DataUsers.Remove(entity);
+                _context.UsersData.Remove(entity);
                 _context.SaveChanges();
             }
             else
@@ -47,15 +48,23 @@ namespace pruebaAPI.Repositories
             }
         }
 
-        public IEnumerable<UserData> GetDataUsers()
+        public IEnumerable<UserDataResponse> GetDataUsers()
         {
-            return [.. _context.DataUsers];
+            return [.. _context.UsersData.Select(user => new UserDataResponse
+            {
+                Id = user.Id,
+                Name = user.Name,
+                LastName = user.LastName,
+                Birth = user.Birth,
+                Email = user.Email,
+                Phone = user.Phone
+            })];
         }
 
-        public UserDataResponse GetUser(Guid id)
+        public UserDataResponse GetDataUser(Guid id)
         {
             // Assuming User maps to DataUser.
-            var entity = _context.DataUsers.FirstOrDefault(u => u.Id == id);
+            var entity = _context.UsersData.FirstOrDefault(u => u.Id == id);
             if (entity == null)
             {
                 throw new ArgumentException("User not found");
@@ -73,7 +82,7 @@ namespace pruebaAPI.Repositories
 
         public void UpdateDataUser(Guid id, UserDataRequest request)
         {
-            var entity = _context.DataUsers.FirstOrDefault(u => u.Id == id);
+            var entity = _context.UsersData.FirstOrDefault(u => u.Id == id);
             if (entity == null)
             {
                 throw new ArgumentException("User not found");
@@ -87,5 +96,6 @@ namespace pruebaAPI.Repositories
 
             _context.SaveChanges();
         }
+
     }
 }

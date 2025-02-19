@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using pruebaAPI.Data;
+using pruebaAPI.Interfaces;
 using pruebaAPI.Models;
 namespace pruebaAPI.Repositories
 {
@@ -43,7 +44,10 @@ namespace pruebaAPI.Repositories
 
         public ProductResponse GetProduct(Guid id)
         {
-            var product = _context.Products.Include(product => product.Category).FirstOrDefault(product => product.Id == id) ?? throw new KeyNotFoundException("Product not found");
+            var product = _context.Products
+            .Include(product => product.Category)
+            .FirstOrDefault(product => product.Id == id) 
+                ?? throw new KeyNotFoundException("Product not found");
             return new ProductResponse
             {
                 Id = product!.Id,

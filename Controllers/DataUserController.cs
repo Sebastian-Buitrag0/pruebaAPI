@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using pruebaAPI.Models;
-using pruebaAPI.Repositories;
+using pruebaAPI.Interfaces;
 
 namespace pruebaAPI.Controllers
 {
@@ -11,15 +11,15 @@ namespace pruebaAPI.Controllers
         private readonly IUserDataRepository _userDataRepository = userDataRepository;
 
         [HttpGet]
-        public ActionResult<IEnumerable<UserResponse>> Get()
+        public ActionResult<IEnumerable<UserDataResponse>> Get()
         {
             return Ok(_userDataRepository.GetDataUsers());
         }
 
         [HttpGet("{id}")]
-        public ActionResult<UserResponse> Get(Guid id)
+        public ActionResult<UserDataResponse> Get(Guid id)
         {
-            var user = _userDataRepository.GetUser(id);
+            var user = _userDataRepository.GetDataUser(id);
             if (user == null)
                 return NotFound();
 
@@ -36,7 +36,7 @@ namespace pruebaAPI.Controllers
         [HttpPut("{id}")]
         public ActionResult Update(Guid id, [FromBody] UserDataRequest request)
         {
-            var user = _userDataRepository.GetUser(id);
+            var user = _userDataRepository.GetDataUser(id);
             if (request == null || id != user.Id)
             {
                 return BadRequest();

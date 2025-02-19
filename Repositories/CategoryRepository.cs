@@ -1,5 +1,5 @@
-using Microsoft.EntityFrameworkCore;
 using pruebaAPI.Data;
+using pruebaAPI.Interfaces;
 using pruebaAPI.Models;
 
 namespace pruebaAPI.Repositories
@@ -39,7 +39,9 @@ namespace pruebaAPI.Repositories
 
         public CategoryResponse GetCategory(Guid id)
         {
-            var category = _context.Categories.FirstOrDefault(c => c.Id == id) ?? throw new KeyNotFoundException("Category not found");
+            var category = _context.Categories
+                .FirstOrDefault(c => c.Id == id) ?? 
+                    throw new KeyNotFoundException("Category not found");
             return new CategoryResponse
             {
                 Id = category.Id,

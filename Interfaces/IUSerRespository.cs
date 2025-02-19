@@ -1,10 +1,10 @@
 using pruebaAPI.Models;
 
-namespace pruebaAPI.Repositories
+namespace pruebaAPI.Interfaces
 {
     public interface IUserRespoitory
     {
-        IEnumerable<User> GetUsers();
+        IEnumerable<UserResponse> GetUsers();
         UserResponse GetUser(Guid id);
         UserResponse AddUser(UserRequest user);
         void UpdateUser(Guid id, UserRequest user);

@@ -1,6 +1,6 @@
 using pruebaAPI.Models;
 
-namespace pruebaAPI.Repositories
+namespace pruebaAPI.Interfaces
 {
     public interface IProductoRepository
     {

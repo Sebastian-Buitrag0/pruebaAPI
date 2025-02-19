@@ -1,19 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
 using pruebaAPI.Models;
-using pruebaAPI.Repositories;
+using pruebaAPI.Interfaces;
 
 namespace pruebaAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class RolController : ControllerBase
+    public class RolController(IRoleRepository roleRepository) : ControllerBase
     {
-        private readonly IRoleRepository _roleRepository;
-
-        public RolController(IRoleRepository roleRepository)
-        {
-            _roleRepository = roleRepository;
-        }
+        private readonly IRoleRepository _roleRepository = roleRepository;
 
         [HttpGet]
         public ActionResult<IEnumerable<RoleResponse>> Get()

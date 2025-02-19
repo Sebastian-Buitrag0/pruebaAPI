@@ -1,8 +1,6 @@
 using pruebaAPI.Data;
+using pruebaAPI.Interfaces;
 using pruebaAPI.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace pruebaAPI.Repositories
 {
@@ -42,22 +40,24 @@ namespace pruebaAPI.Repositories
 
         public RoleResponse GetRole(Guid id)
         {
-            var rol = _context.Roles.FirstOrDefault(r => r.Id == id)
+            var rol = _context.Roles
+                .FirstOrDefault(r => r.Id == id)
                       ?? throw new KeyNotFoundException("Rol not found");
             return new RoleResponse
             {
+                Id = rol.Id,
                 Name = rol.Name,
                 Description = rol.Description
             };
         }
         public IEnumerable<RoleResponse> GetRoles()
         {
-            return _context.Roles.Select(rol => new RoleResponse
+            return [.. _context.Roles.Select(rol => new RoleResponse
             {
                 Id = rol.Id,
                 Name = rol.Name,
                 Description = rol.Description
-            }).ToList();
+            })];
         }
 
         public void UpdateRole(Guid id, RoleRequest request)

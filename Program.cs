@@ -2,6 +2,8 @@ using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using pruebaAPI.Data;
 using pruebaAPI.Repositories;
+using pruebaAPI.Interfaces;
+using pruebaAPI.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +27,7 @@ builder.Services.AddScoped<ISaleRepository, SaleRepository>();
 builder.Services.AddScoped<IRoleRepository, RolRepository>();
 builder.Services.AddScoped<IUserRespoitory, UserRepository>();
 builder.Services.AddScoped<IUserDataRepository, UserDataRepository>();
+builder.Services.AddScoped<IProductSale, ProductSaleRepository>();
 
 var app = builder.Build();
 
