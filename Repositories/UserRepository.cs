@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using pruebaAPI.Data;
 using pruebaAPI.Models;
 
@@ -12,12 +13,14 @@ namespace pruebaAPI.Repositories
             var user = new User
             {
                 Id = Guid.NewGuid(),
+                UserData = request.UserData,
                 Username = request.Username,
                 Password = request.Password
             };
             _context.Users.Add(user);
             _context.SaveChanges();
             return new UserResponse {
+                UserData = user.UserData,
                 Id = user.Id,
                 Username = user.Username,
                 Password = user.Password
@@ -40,8 +43,9 @@ namespace pruebaAPI.Repositories
 
         public UserResponse GetUser(Guid id)
         {
-            var user = _context.Users.Find(id) ?? throw new KeyNotFoundException("User not found");
+            var user = _context.Users.Include(user => user.UserData).FirstOrDefault(user => user.Id == id) ?? throw new KeyNotFoundException("User not found");
             return new UserResponse {
+                UserData = user.UserData,
                 Id = user.Id,
                 Username = user.Username,
                 Password = user.Password
