@@ -1,20 +1,15 @@
 using Microsoft.AspNetCore.Mvc;
 using pruebaAPI.Models;
-using pruebaAPI.Repositories;
+using pruebaAPI.Interfaces;
 
 namespace pruebaAPI.Controllers
 {   
 
     [ApiController]
     [Route("api/[controller]")]
-    public class ProductController : ControllerBase
+    public class ProductController(IProductoRepository productRepository) : ControllerBase
     {
-        private readonly IProductoRepository _productRepository;
-
-        public ProductController(IProductoRepository productRepository)
-        {
-            _productRepository = productRepository;
-        }
+        private readonly IProductoRepository _productRepository = productRepository;
 
         [HttpGet]
         public ActionResult<IEnumerable<ProductResponse>> Get()
@@ -35,8 +30,8 @@ namespace pruebaAPI.Controllers
         [HttpPost]
         public ActionResult Add([FromBody] ProductRequest product)
         {
-            _productRepository.AddProduct(product);
-            return CreatedAtAction(nameof(Get), new {id = product}, product);
+            var result = _productRepository.AddProduct(product);
+            return CreatedAtAction(nameof(Get), new { id = result.Id }, product);
         }
 
         [HttpPut("{id}")]

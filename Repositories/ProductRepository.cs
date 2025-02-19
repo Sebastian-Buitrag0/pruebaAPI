@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using pruebaAPI.Data;
+using pruebaAPI.Interfaces;
 using pruebaAPI.Models;
 namespace pruebaAPI.Repositories
 {
@@ -9,7 +10,7 @@ namespace pruebaAPI.Repositories
         private readonly ApplicationDbContext _context = context;
 
 
-        public void AddProduct(ProductRequest request)
+        public ProductResponse AddProduct(ProductRequest request)
         {
 
             var product = new Product
@@ -22,6 +23,14 @@ namespace pruebaAPI.Repositories
             };
             _context.Products.Add(product);
             _context.SaveChanges();
+            return new ProductResponse
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                Price = product.Price,
+                Category = product.Category
+            };
         }
 
         public void DeleteProduct(Guid id)
@@ -35,7 +44,10 @@ namespace pruebaAPI.Repositories
 
         public ProductResponse GetProduct(Guid id)
         {
-            var product = _context.Products.Include(product => product.Category).FirstOrDefault(product => product.Id == id) ?? throw new KeyNotFoundException("Product not found");
+            var product = _context.Products
+            .Include(product => product.Category)
+            .FirstOrDefault(product => product.Id == id) 
+                ?? throw new KeyNotFoundException("Product not found");
             return new ProductResponse
             {
                 Id = product!.Id,

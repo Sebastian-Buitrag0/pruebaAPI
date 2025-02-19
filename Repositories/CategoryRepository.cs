@@ -1,19 +1,14 @@
-using Microsoft.EntityFrameworkCore;
 using pruebaAPI.Data;
+using pruebaAPI.Interfaces;
 using pruebaAPI.Models;
 
 namespace pruebaAPI.Repositories
 {
-    public class CategoryRepository : ICategoryRepository
+    public class CategoryRepository(ApplicationDbContext context) : ICategoryRepository
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context = context;
 
-        public CategoryRepository(ApplicationDbContext context)
-        {
-            _context = context;
-        }
-
-        public void AddCategory(CategoryRequest request)
+        public CategoryResponse AddCategory(CategoryRequest request)
         {
             var category = new Category
             {
@@ -23,6 +18,13 @@ namespace pruebaAPI.Repositories
             };
             _context.Categories.Add(category);
             _context.SaveChanges();
+            
+            return new CategoryResponse
+            {
+                Id = category.Id,
+                Name = category.Name,
+                Description = category.Description
+            };
         }
 
         public void DeleteCategory(Guid id)
@@ -37,7 +39,9 @@ namespace pruebaAPI.Repositories
 
         public CategoryResponse GetCategory(Guid id)
         {
-            var category = _context.Categories.FirstOrDefault(c => c.Id == id) ?? throw new KeyNotFoundException("Category not found");
+            var category = _context.Categories
+                .FirstOrDefault(c => c.Id == id) ?? 
+                    throw new KeyNotFoundException("Category not found");
             return new CategoryResponse
             {
                 Id = category.Id,

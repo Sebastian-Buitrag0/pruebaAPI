@@ -2,8 +2,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace pruebaAPI.Models
 {
-    public class DataUserRequest
+
+    [PrimaryKey(nameof(Id))]
+    public class UserDataResponse
     {
+        public Guid Id { set; get; }
         public string? Name { set; get; }
         public string? LastName { set; get; }
         public DateOnly Birth { set; get; }

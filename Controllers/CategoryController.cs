@@ -1,21 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
 using pruebaAPI.Models;
-using pruebaAPI.Repositories;
-using System;
-using System.Collections.Generic;
+using pruebaAPI.Interfaces;
 
 namespace pruebaAPI.Controllers
 {   
     [ApiController]
     [Route("api/[controller]")]
-    public class CategoryController : ControllerBase
+    public class CategoryController(ICategoryRepository categoryRepository) : ControllerBase
     {
-        private readonly ICategoryRepository _categoryRepository;
-
-        public CategoryController(ICategoryRepository categoryRepository)
-        {
-            _categoryRepository = categoryRepository;
-        }
+        private readonly ICategoryRepository _categoryRepository = categoryRepository;
 
         [HttpGet]
         public ActionResult<IEnumerable<CategoryResponse>> Get()
@@ -36,9 +29,8 @@ namespace pruebaAPI.Controllers
         [HttpPost]
         public ActionResult Add([FromBody] CategoryRequest category)
         {
-            _categoryRepository.AddCategory(category);
-            // Se asume que CategoryRequest tiene una propiedad Id definida al crearse la categoría
-            return CreatedAtAction(nameof(Get), new { id = category }, category);
+            var result = _categoryRepository.AddCategory(category);
+            return CreatedAtAction(nameof(Get), new { id = result.Id }, category);
         }
 
         [HttpPut("{id}")]

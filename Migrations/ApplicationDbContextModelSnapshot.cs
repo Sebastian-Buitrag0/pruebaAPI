@@ -39,32 +39,6 @@ namespace pruebaAPI.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("pruebaAPI.Models.DataUser", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateOnly>("Birth")
-                        .HasColumnType("date");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("text");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Phone")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DataUsers");
-                });
-
             modelBuilder.Entity("pruebaAPI.Models.Product", b =>
                 {
                     b.Property<Guid>("Id")
@@ -80,19 +54,58 @@ namespace pruebaAPI.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("numeric");
+                    b.Property<double>("Price")
+                        .HasColumnType("double precision");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("pruebaAPI.Models.ProductSale", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<double>("Amount")
+                        .HasColumnType("double precision");
+
+                    b.Property<Guid?>("ProductId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
 
                     b.Property<Guid?>("SaleId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex("ProductId");
 
                     b.HasIndex("SaleId");
 
-                    b.ToTable("Products");
+                    b.ToTable("ProductSales");
+                });
+
+            modelBuilder.Entity("pruebaAPI.Models.Role", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("pruebaAPI.Models.Sale", b =>
@@ -129,12 +142,48 @@ namespace pruebaAPI.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("text");
 
+                    b.Property<Guid?>("RoleId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("UserDataId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Username")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("RoleId");
+
+                    b.HasIndex("UserDataId");
+
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("pruebaAPI.Models.UserData", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateOnly>("Birth")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UsersData");
                 });
 
             modelBuilder.Entity("pruebaAPI.Models.Product", b =>
@@ -145,11 +194,20 @@ namespace pruebaAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("pruebaAPI.Models.ProductSale", b =>
+                {
+                    b.HasOne("pruebaAPI.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId");
+
                     b.HasOne("pruebaAPI.Models.Sale", null)
                         .WithMany("Products")
                         .HasForeignKey("SaleId");
 
-                    b.Navigation("Category");
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("pruebaAPI.Models.Sale", b =>
@@ -159,6 +217,21 @@ namespace pruebaAPI.Migrations
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("pruebaAPI.Models.User", b =>
+                {
+                    b.HasOne("pruebaAPI.Models.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId");
+
+                    b.HasOne("pruebaAPI.Models.UserData", "UserData")
+                        .WithMany()
+                        .HasForeignKey("UserDataId");
+
+                    b.Navigation("Role");
+
+                    b.Navigation("UserData");
                 });
 
             modelBuilder.Entity("pruebaAPI.Models.Sale", b =>
