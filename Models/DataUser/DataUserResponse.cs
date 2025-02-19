@@ -4,7 +4,7 @@ namespace pruebaAPI.Models
 {
 
     [PrimaryKey(nameof(Id))]
-    public class DataUserResponse
+    public class UserDataResponse
     {
         public Guid Id { set; get; }
         public string? Name { set; get; }

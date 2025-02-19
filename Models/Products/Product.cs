@@ -6,12 +6,12 @@ namespace pruebaAPI.Models
     [PrimaryKey(nameof(Id))]
     public class Product
     {
+        public required Guid CategoryId { get; set; }
+        public  Category? Category { set; get; }
+
         public Guid Id { get; set; } = Guid.NewGuid();
         public string? Name { get; set; }
         public string? Description { get; set; }
-        public decimal Price { get; set; }
-
-        public required Guid CategoryId { get; set; }
-        public  Category? Category { set; get; }
+        public double Price { get; set; }
     }
 }

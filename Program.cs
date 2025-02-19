@@ -21,6 +21,11 @@ builder.Services.AddSwaggerGen(c =>
 // builder.Services.AddSingleton<pruebaAPI.Repositories.IProductoRepository, pruebaAPI.Repositories.ProductoRepository>();
 builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ISaleRepository, SaleRepository>();
+builder.Services.AddScoped<IRoleRepository, RolRepository>();
+builder.Services.AddScoped<IUserRespoitory, UserRepository>();
+builder.Services.AddScoped<IUserDataRepository, UserDataRepository>();
+
 var app = builder.Build();
 
 // Configure middleware

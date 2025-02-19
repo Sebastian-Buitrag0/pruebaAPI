@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace pruebaAPI.Models
 {
-    public class DataUserRequest
+    public class UserDataRequest
     {
         public string? Name { set; get; }
         public string? LastName { set; get; }

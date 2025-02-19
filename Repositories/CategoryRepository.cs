@@ -4,16 +4,11 @@ using pruebaAPI.Models;
 
 namespace pruebaAPI.Repositories
 {
-    public class CategoryRepository : ICategoryRepository
+    public class CategoryRepository(ApplicationDbContext context) : ICategoryRepository
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context = context;
 
-        public CategoryRepository(ApplicationDbContext context)
-        {
-            _context = context;
-        }
-
-        public void AddCategory(CategoryRequest request)
+        public CategoryResponse AddCategory(CategoryRequest request)
         {
             var category = new Category
             {
@@ -23,6 +18,13 @@ namespace pruebaAPI.Repositories
             };
             _context.Categories.Add(category);
             _context.SaveChanges();
+            
+            return new CategoryResponse
+            {
+                Id = category.Id,
+                Name = category.Name,
+                Description = category.Description
+            };
         }
 
         public void DeleteCategory(Guid id)

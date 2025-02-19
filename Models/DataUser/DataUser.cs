@@ -4,7 +4,7 @@ namespace pruebaAPI.Models
 {
 
     [PrimaryKey(nameof(Id))]
-    public class DataUser
+    public class UserData
     {
         public Guid Id = Guid.NewGuid();
         public string? Name { set; get; }

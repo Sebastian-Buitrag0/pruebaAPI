@@ -6,7 +6,7 @@ namespace pruebaAPI.Repositories
     {
         IEnumerable<CategoryResponse> GetCategories();
         CategoryResponse GetCategory(Guid id);
-        void AddCategory(CategoryRequest request);
+        CategoryResponse AddCategory(CategoryRequest request);
         void UpdateCategory(Guid id, CategoryRequest request);
         void DeleteCategory(Guid id);
     }

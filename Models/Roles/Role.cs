@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 namespace pruebaAPI.Models
 {
     [PrimaryKey(nameof(Id))]
-    public class Rol 
+    public class Role 
     {
         public Guid Id = Guid.NewGuid();
         public string? Name { get; set; }

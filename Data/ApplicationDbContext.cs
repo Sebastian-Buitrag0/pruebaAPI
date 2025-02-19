@@ -14,6 +14,7 @@ namespace pruebaAPI.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Sale> Sales { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<DataUser> DataUsers { get; set; }
+        public DbSet<UserData> DataUsers { get; set; }
+        public DbSet<Role> Roles { get; set; }
     }
 }

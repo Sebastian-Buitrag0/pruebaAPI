@@ -6,7 +6,7 @@ namespace pruebaAPI.Repositories
     {
         IEnumerable<ProductResponse> GetProducts();
         ProductResponse GetProduct(Guid id);
-        void AddProduct(ProductRequest request);
+        ProductResponse AddProduct(ProductRequest request);
         void UpdateProduct(Guid id, ProductRequest request);
         void DeleteProduct(Guid id);
     }

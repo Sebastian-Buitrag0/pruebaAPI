@@ -3,12 +3,12 @@ using pruebaAPI.Models;
 namespace pruebaAPI.Repositories
 {
 
-    public interface IDataUserRepository
+    public interface IUserDataRepository
     {
-        IEnumerable<DataUser> GetDataUsers();
-        User GetUser(Guid id);
-        void AddDataUser(DataUserRequest request);
-        void UpdateDataUser(Guid id,DataUserRequest request);
+        IEnumerable<UserData> GetDataUsers();
+        UserDataResponse GetUser(Guid id);
+        UserDataResponse AddDataUser(UserDataRequest request);
+        void UpdateDataUser(Guid id,UserDataRequest request);
         void DeleteDataUser(Guid id);
     }
 
