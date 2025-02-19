@@ -7,6 +7,6 @@ namespace pruebaAPI.Models
         public decimal Price { get; set; }
 
 
-        public Category? Category { set; get; }
+        public Guid CategoryId { set; get; }
     }
 }

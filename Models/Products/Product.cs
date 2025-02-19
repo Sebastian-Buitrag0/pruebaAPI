@@ -11,6 +11,7 @@ namespace pruebaAPI.Models
         public string? Description { get; set; }
         public decimal Price { get; set; }
 
-        public required Category? Category { set; get; }
+        public required Guid CategoryId { get; set; }
+        public  Category? Category { set; get; }
     }
 }

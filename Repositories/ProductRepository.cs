@@ -8,6 +8,7 @@ namespace pruebaAPI.Repositories
 
         private readonly ApplicationDbContext _context = context;
 
+       
         public void AddProduct(ProductRequest request)
         {
 
@@ -17,7 +18,7 @@ namespace pruebaAPI.Repositories
                 Name = request.Name,
                 Description = request.Description,
                 Price = request.Price,
-                Category = request.Category
+                CategoryId = request.CategoryId
             };
             _context.Products.Add(product);
             _context.SaveChanges();
@@ -69,6 +70,7 @@ namespace pruebaAPI.Repositories
                 product.Name = request.Name;
                 product.Description = request.Description;
                 product.Price = request.Price;
+                product.CategoryId = request.CategoryId; 
                 _context.Products.Update(product);
                 _context.SaveChanges();
             }
