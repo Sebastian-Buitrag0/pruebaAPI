@@ -8,7 +8,7 @@ namespace pruebaAPI.Repositories
 
         private readonly ApplicationDbContext _context = context;
 
-       
+
         public void AddProduct(ProductRequest request)
         {
 
@@ -35,10 +35,7 @@ namespace pruebaAPI.Repositories
 
         public ProductResponse GetProduct(Guid id)
         {
-            var product = _context.Products.Include(product => product.Category).FirstOrDefault(product => product.Id == id);
-            if (product == null)
-                return null;
-
+            var product = _context.Products.Include(product => product.Category).FirstOrDefault(product => product.Id == id) ?? throw new KeyNotFoundException("Product not found");
             return new ProductResponse
             {
                 Id = product!.Id,
@@ -70,7 +67,7 @@ namespace pruebaAPI.Repositories
                 product.Name = request.Name;
                 product.Description = request.Description;
                 product.Price = request.Price;
-                product.CategoryId = request.CategoryId; 
+                product.CategoryId = request.CategoryId;
                 _context.Products.Update(product);
                 _context.SaveChanges();
             }

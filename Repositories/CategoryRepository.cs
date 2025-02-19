@@ -37,10 +37,7 @@ namespace pruebaAPI.Repositories
 
         public CategoryResponse GetCategory(Guid id)
         {
-            var category = _context.Categories.FirstOrDefault(c => c.Id == id);
-            if (category == null)
-                return null;
-
+            var category = _context.Categories.FirstOrDefault(c => c.Id == id) ?? throw new KeyNotFoundException("Category not found");
             return new CategoryResponse
             {
                 Id = category.Id,
