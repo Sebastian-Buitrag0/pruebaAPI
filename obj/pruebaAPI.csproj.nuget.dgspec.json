@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/futurodigital005/Desktop/Prosoft/Proyectos/dotNet/pruebaAPI/pruebaAPI.csproj": {}
+    "/Users/futurodigital005/Desktop/Prosoft/Proyectos/dotnet/pruebaAPI/pruebaAPI.csproj": {}
   },
   "projects": {
-    "/Users/futurodigital005/Desktop/Prosoft/Proyectos/dotNet/pruebaAPI/pruebaAPI.csproj": {
+    "/Users/futurodigital005/Desktop/Prosoft/Proyectos/dotnet/pruebaAPI/pruebaAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/futurodigital005/Desktop/Prosoft/Proyectos/dotNet/pruebaAPI/pruebaAPI.csproj",
+        "projectUniqueName": "/Users/futurodigital005/Desktop/Prosoft/Proyectos/dotnet/pruebaAPI/pruebaAPI.csproj",
         "projectName": "pruebaAPI",
-        "projectPath": "/Users/futurodigital005/Desktop/Prosoft/Proyectos/dotNet/pruebaAPI/pruebaAPI.csproj",
+        "projectPath": "/Users/futurodigital005/Desktop/Prosoft/Proyectos/dotnet/pruebaAPI/pruebaAPI.csproj",
         "packagesPath": "/Users/futurodigital005/.nuget/packages/",
-        "outputPath": "/Users/futurodigital005/Desktop/Prosoft/Proyectos/dotNet/pruebaAPI/obj/",
+        "outputPath": "/Users/futurodigital005/Desktop/Prosoft/Proyectos/dotnet/pruebaAPI/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/futurodigital005/.nuget/NuGet/NuGet.Config"

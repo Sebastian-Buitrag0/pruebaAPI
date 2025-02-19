@@ -15,7 +15,7 @@ namespace pruebaAPI.Repositories
           if (request.Product == null)
               throw new ArgumentNullException(nameof(request.Product));
               
-          var product = _context.Products.FirstOrDefault(r => r.Id == request.Product.Id) ?? throw new ArgumentException("Product not found");
+          var product = _context.Products.FirstOrDefault(r => r.Id == request.Product) ?? throw new ArgumentException("Product not found");
             var productSale = new ProductSale{
                 Product = product,
                 Amount = request.Quantity * product.Price,
@@ -66,6 +66,7 @@ namespace pruebaAPI.Repositories
         {
             return _context.ProductSales
                 .Include(ps => ps.Product)
+                .ThenInclude(p => p!.Category)
                 .Select(productSale => new ProductSaleResponse
                 {
                     Id = productSale.Id,

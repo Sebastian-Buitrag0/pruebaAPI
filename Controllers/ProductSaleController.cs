@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using pruebaAPI.Interfaces;
-using pruebaAPI.Models; // Asegúrate de tener definidos los modelos ProductSaleRequest y ProductSaleResponse
-
+using pruebaAPI.Models;
 namespace pruebaAPI.Controllers
 {
     [Route("api/[controller]")]

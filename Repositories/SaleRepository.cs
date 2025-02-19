@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using pruebaAPI.Data;
 using pruebaAPI.Interfaces;
 using pruebaAPI.Models;
@@ -14,10 +15,10 @@ namespace pruebaAPI.Repositories
             var products = new List<ProductSale>();
             foreach (var productId in request.Products)
             {
-                var product = _context.Products.Find(productId);
+                var product = _context.ProductSales.Find(productId);
                 if (product == null)
                     throw new KeyNotFoundException($"Product not found: {productId}");
-                products.Add(new ProductSale { Product = product });
+                products.Add(product);
             }
             var sale = new Sale
             {
@@ -52,11 +53,15 @@ namespace pruebaAPI.Repositories
                 _context.SaveChanges();
             }
         }
-
         public SaleResponse GetSale(Guid id)
         {
-            var sale = _context.Sales.FirstOrDefault(s => s.Id == id)
-                        ?? throw new KeyNotFoundException("Sale not found");
+            var sale = _context.Sales
+                .Include(s => s.User)
+                .Include(s => s.Products)
+                    .ThenInclude(ps => ps.Product)
+                        .ThenInclude(p => p!.Category)
+                .FirstOrDefault(s => s.Id == id)
+                ?? throw new KeyNotFoundException("Sale not found");
             return new SaleResponse
             {
                 Id = sale.Id,
@@ -70,7 +75,16 @@ namespace pruebaAPI.Repositories
 
         public IEnumerable<SaleResponse> GetSales()
         {
-            return _context.Sales.Select(sale => new SaleResponse
+            var sales = _context.Sales
+            .Include(s => s.User!.UserData)
+                .Include(s => s.User)
+                    .ThenInclude(u => u!.Role)
+                .Include(s => s.Products)
+                    .ThenInclude(ps => ps.Product)
+                        .ThenInclude(p => p!.Category)
+                .ToList();
+
+            return sales.Select(sale => new SaleResponse
             {
                 Id = sale.Id,
                 SaleDate = sale.SaleDate,
