@@ -17,5 +17,7 @@ namespace pruebaAPI.Data
         public DbSet<UserData> UsersData { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<ProductSale> ProductSales { get; set; }
+
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
     }
 }

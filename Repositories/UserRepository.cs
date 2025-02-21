@@ -123,7 +123,7 @@ namespace pruebaAPI.Repositories
     _context.Users.Update(user);
     _context.SaveChanges();
 }
-        public UserResponse ValidateUser(string username, string password)
+        public User ValidateUser(string username, string password)
         {
             var user = _context.Users
                 .Include(u => u.UserData)
@@ -135,14 +135,7 @@ namespace pruebaAPI.Repositories
                 throw new KeyNotFoundException("User not found");
             }
 
-            return new UserResponse
-            {
-                UserData = user.UserData,
-                Role = user.Role,
-                Id = user.Id,
-                Username = user.Username,
-                Password = user.Password
-            };
+            return user;
         }
     }
 }

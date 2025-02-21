@@ -9,7 +9,7 @@ namespace pruebaAPI.Interfaces
         UserResponse AddUser(UserRequest user);
         void UpdateUser(Guid id, UserRequest user);
         void DeleteUser(Guid id);
-        UserResponse ValidateUser(string username, string password);
+        User ValidateUser(string username, string password);
 
     }
 }

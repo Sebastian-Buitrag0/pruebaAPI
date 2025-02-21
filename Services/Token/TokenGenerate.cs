@@ -3,19 +3,15 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using pruebaAPI.Models;
 
 namespace pruebaAPI.Services
 {
-    public class TokenGenerate
+    public class TokenGenerate(IConfiguration configuration)
     {
-        private readonly IConfiguration _configuration;
+        private readonly IConfiguration _configuration = configuration;
 
-        public TokenGenerate(IConfiguration configuration)
-        {
-            _configuration = configuration;
-        }
-
-        public string GenerateToken(Models.UserResponse user)
+        public string GenerateToken(User user)
         {
             var claims = new[]
             {
@@ -40,21 +36,30 @@ namespace pruebaAPI.Services
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        public string GenerateRefreshToken()
+        public RefreshToken GenerateRefreshToken(User user)
         {
-            var randomNumber = new byte[32];
+            var randomNumber = new byte[64];
             using (var rng = RandomNumberGenerator.Create())
             {
                 rng.GetBytes(randomNumber);
-                return Convert.ToBase64String(randomNumber);
+                return new RefreshToken
+                {
+                    Token = Convert.ToBase64String(randomNumber),
+                    Created = DateTime.UtcNow,
+                    Expires = DateTime.UtcNow.AddDays(7),
+                    UserId = user.Id,
+                    User = user,
+                    Revoked = null
+                };
             }
         }
 
 
-        public (string AccessToken, string RefreshToken) GenerateTokens(Models.UserResponse user)
-        {
+        public (string AccessToken, RefreshToken RefreshToken) GenerateTokens(User user)
+        {   
+            
             var accessToken = GenerateToken(user);
-            var refreshToken = GenerateRefreshToken();
+            var refreshToken = GenerateRefreshToken(user);
             return (accessToken, refreshToken);
         }
     }

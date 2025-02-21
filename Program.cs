@@ -45,6 +45,17 @@ builder.Services.AddSwaggerGen(c =>
     
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:9000")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+        });
+});
+
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -70,6 +81,7 @@ builder.Services.AddScoped<IRoleRepository, RolRepository>();
 builder.Services.AddScoped<IUserRespoitory, UserRepository>();
 builder.Services.AddScoped<IUserDataRepository, UserDataRepository>();
 builder.Services.AddScoped<IProductSale, ProductSaleRepository>();
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<TokenGenerate>();
 
 var app = builder.Build();
@@ -80,7 +92,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
