@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using pruebaAPI.Models;
 using pruebaAPI.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace pruebaAPI.Controllers
 {   
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class CategoryController(ICategoryRepository categoryRepository) : ControllerBase
     {
         private readonly ICategoryRepository _categoryRepository = categoryRepository;

@@ -123,5 +123,26 @@ namespace pruebaAPI.Repositories
     _context.Users.Update(user);
     _context.SaveChanges();
 }
+        public UserResponse ValidateUser(string username, string password)
+        {
+            var user = _context.Users
+                .Include(u => u.UserData)
+                .Include(u => u.Role)
+                .FirstOrDefault(u => u.Username == username && u.Password == password);
+
+            if (user == null)
+            {
+                throw new KeyNotFoundException("User not found");
+            }
+
+            return new UserResponse
+            {
+                UserData = user.UserData,
+                Role = user.Role,
+                Id = user.Id,
+                Username = user.Username,
+                Password = user.Password
+            };
+        }
     }
 }

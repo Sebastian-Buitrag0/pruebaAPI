@@ -64,11 +64,7 @@ namespace pruebaAPI.Repositories
         public UserDataResponse GetDataUser(Guid id)
         {
             // Assuming User maps to DataUser.
-            var entity = _context.UsersData.FirstOrDefault(u => u.Id == id);
-            if (entity == null)
-            {
-                throw new ArgumentException("User not found");
-            }
+            var entity = _context.UsersData.FirstOrDefault(u => u.Id == id) ?? throw new ArgumentException("User not found");
             return new UserDataResponse
             {
                 Id = entity.Id,

@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using pruebaAPI.Models;
 using pruebaAPI.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace pruebaAPI.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class UserDataController(IUserDataRepository userDataRepository) : ControllerBase

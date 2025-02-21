@@ -1,9 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using pruebaAPI.Models;
 using pruebaAPI.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace pruebaAPI.Controllers
-{
+{   [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class UserController(IUserRespoitory userRepository) : ControllerBase
@@ -22,6 +23,18 @@ namespace pruebaAPI.Controllers
             var user = _userRepository.GetUser(id);
             if (user == null)
                 return NotFound();
+
+            return Ok(user);
+        }
+
+        [NonAction]
+        public ActionResult<UserResponse> ValidateUser(Guid id)
+        {
+            var user = _userRepository.GetUser(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
 
             return Ok(user);
         }

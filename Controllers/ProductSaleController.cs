@@ -1,8 +1,10 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using pruebaAPI.Interfaces;
 using pruebaAPI.Models;
 namespace pruebaAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductSaleController(IProductSale productSaleRepository) : ControllerBase

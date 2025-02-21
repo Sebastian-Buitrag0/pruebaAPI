@@ -15,9 +15,7 @@ namespace pruebaAPI.Repositories
             var products = new List<ProductSale>();
             foreach (var productId in request.Products)
             {
-                var product = _context.ProductSales.Find(productId);
-                if (product == null)
-                    throw new KeyNotFoundException($"Product not found: {productId}");
+                var product = _context.ProductSales.Find(productId) ?? throw new KeyNotFoundException($"Product not found: {productId}");
                 products.Add(product);
             }
             var sale = new Sale
