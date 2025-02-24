@@ -12,7 +12,7 @@ namespace pruebaAPI.Interfaces
         User? GetUserByRefreshToken(RefreshTokenRequest token);
         Guid GetRefreshToken(RefreshTokenRequest token);
 
-        void ValidateUniqueUser(RefreshTokenRequest username);
+        void ValidateUniqueUser(Guid userId);
 
     }
 }

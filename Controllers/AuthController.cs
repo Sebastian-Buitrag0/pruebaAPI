@@ -25,6 +25,7 @@ namespace pruebaAPI.Controllers
                 
                 var (accessToken, refreshToken) = _tokenGenerate.GenerateTokens(user);
                 _authRepository.SaveRefreshToken(refreshToken);
+                _authRepository.ValidateUniqueUser(user!.Id);
                 return Ok(new { accessToken, refreshToken.Token });
             }
             catch (KeyNotFoundException ex)
@@ -47,8 +48,9 @@ namespace pruebaAPI.Controllers
             if (refreshToken == Guid.Empty)
                 return Unauthorized(new { message = "Invalid refresh token" });
             var user = _authRepository.GetUserByRefreshToken(new RefreshTokenRequest { Token = token.Token });
-            _authRepository.ValidateUniqueUser(token);
+            
             var (newAccessToken, newRefreshToken) = _tokenGenerate.GenerateTokens(user!);
+            _authRepository.ValidateUniqueUser(user!.Id);
             return new ObjectResult(new { accessToken = newAccessToken, refreshToken = newRefreshToken.Token });
         }
     }

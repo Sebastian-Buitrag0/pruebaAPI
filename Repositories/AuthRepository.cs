@@ -33,7 +33,7 @@ namespace pruebaAPI.Repositories
         public User? UserExists(string username)
         {
             return _context.Users.FirstOrDefault(u => u.Username == username);
-            
+
         }
 
         public Guid GetRefreshToken(RefreshTokenRequest token)
@@ -48,23 +48,18 @@ namespace pruebaAPI.Repositories
             return refreshToken != null ? _context.Users.FirstOrDefault(u => u.Id == refreshToken.UserId) : null;
         }
 
-        public void ValidateUniqueUser(RefreshTokenRequest token)
+        public void ValidateUniqueUser(Guid userId)
         {
-            var currentToken = _context.RefreshTokens.FirstOrDefault(t => t.Token == token.Token);
-            if (currentToken != null)
-            {
-                var userTokens = _context.RefreshTokens
-                    .Where(t => t.UserId == currentToken.UserId)
-                    .OrderByDescending(t => t.Created)
-                    .ToList();
+            var userTokens = _context.RefreshTokens
+                .Where(t => t.UserId == userId)
+                .OrderByDescending(t => t.Created)
+                .ToList();
 
-                
-                if (userTokens.Count > 1)
-                {
-                    var tokensToRemove = userTokens.Skip(1);
-                    _context.RefreshTokens.RemoveRange(tokensToRemove);
-                    _context.SaveChanges();
-                }
+            if (userTokens.Count > 1)
+            {
+                var tokensToRemove = userTokens.Skip(1);
+                _context.RefreshTokens.RemoveRange(tokensToRemove);
+                _context.SaveChanges();
             }
         }
     }
