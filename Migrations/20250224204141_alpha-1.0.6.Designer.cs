@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using pruebaAPI.Data;
@@ -11,9 +12,11 @@ using pruebaAPI.Data;
 namespace pruebaAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250224204141_alpha-1.0.6")]
+    partial class alpha106
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,31 +52,6 @@ namespace pruebaAPI.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("RefreshTokens");
-                });
-
-            modelBuilder.Entity("pruebaAPI.Models.CashBox", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("numeric");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid?>("SaleId")
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SaleId");
-
-                    b.ToTable("CashBoxes");
                 });
 
             modelBuilder.Entity("pruebaAPI.Models.Category", b =>
@@ -249,15 +227,6 @@ namespace pruebaAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("pruebaAPI.Models.CashBox", b =>
-                {
-                    b.HasOne("pruebaAPI.Models.Sale", "Sale")
-                        .WithMany()
-                        .HasForeignKey("SaleId");
-
-                    b.Navigation("Sale");
                 });
 
             modelBuilder.Entity("pruebaAPI.Models.Product", b =>

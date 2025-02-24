@@ -13,19 +13,19 @@ namespace pruebaAPI.Repositories
         {
             var user = _context.Users.Find(request.User) ?? throw new KeyNotFoundException("User not found");
             var products = new List<ProductSale>();
-            foreach (var productId in request.Products)
+            foreach (var productId in request.ProductsSale)
             {
-                var product = _context.ProductSales.Find(productId) ?? throw new KeyNotFoundException($"Product not found: {productId}");
-                products.Add(product);
+            var product = _context.Products.Find(productId) ?? throw new KeyNotFoundException($"Product not found: {productId}");
+            products.Add(new ProductSale { Product = product });
             }
             var sale = new Sale
             {
-                Id = Guid.NewGuid(),
-                SaleDate = request.SaleDate,
-                User = user,
-                Products = products,
-                Amount = products.Sum(product => product.Product?.Price ?? 0),
-                Quantity = products.Count
+            Id = Guid.NewGuid(),
+            SaleDate = DateTime.UtcNow,
+            User = user,
+            Products = products,
+            Amount = products.Sum(ps => ps.Product!.Price),
+            Quantity = products.Count,
             };
 
             _context.Sales.Add(sale);
@@ -33,12 +33,12 @@ namespace pruebaAPI.Repositories
 
             return new SaleResponse
             {
-                Id = sale.Id,
-                SaleDate = sale.SaleDate,
-                Amount = sale.Amount,
-                Quantity = sale.Quantity,
-                User = sale.User,
-                Products = sale.Products
+            Id = sale.Id,
+            SaleDate = sale.SaleDate,
+            Amount = sale.Amount,
+            Quantity = sale.Quantity,
+            User = sale.User,
+            Products = sale.Products
             };
         }
 
@@ -103,7 +103,7 @@ namespace pruebaAPI.Repositories
                 sale.SaleDate = request.SaleDate;
                 sale.User = user;
                 var products = new List<Product>();
-                foreach (var productId in request.Products)
+                foreach (var productId in request.ProductsSale)
                 {
                     var product = _context.Products.Find(productId);
                     if (product == null)

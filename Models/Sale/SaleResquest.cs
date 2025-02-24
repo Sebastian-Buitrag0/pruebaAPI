@@ -1,13 +1,15 @@
-using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace pruebaAPI.Models
 {
     public class SaleRequest
     {
-
-        public required Guid User { set; get; }
-        public required List<Guid> Products { set; get; } = [];
-        public DateTime SaleDate { set; get; }
-
+        [Required(ErrorMessage = "User is required")]
+        public required Guid User { get; set; }
+        
+        [Required(ErrorMessage = "Products is required")]
+        public required List<Guid> ProductsSale { get; set; } = new List<Guid>();
+        
+        public DateTime SaleDate { get; } = DateTime.Now;
     }
 }
