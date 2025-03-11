@@ -39,14 +39,25 @@ namespace pruebaAPI.Controllers
         [HttpPut("{id}")]
         public ActionResult Update(Guid id, [FromBody] ProductRequest request)
         {
-            var product = _productRepository.GetProduct(id);
-            if(request == null || id != product.Id)
+            try
             {
-                return BadRequest();
-            }
+                var product = _productRepository.GetProduct(id);
+                if(request == null || id != product.Id)
+                {
+                    return BadRequest();
+                }
 
-            _productRepository.UpdateProduct(id, request);
-            return NoContent();
+                _productRepository.UpdateProduct(id, request);
+                return NoContent();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Error interno del servidor al actualizar el producto");
+            }
         }
 
         [HttpDelete("{id}")]

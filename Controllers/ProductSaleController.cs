@@ -35,7 +35,7 @@ namespace pruebaAPI.Controllers
         public ActionResult Add([FromBody] ProductSaleRequest sale)
         {
             var result = _productSaleRepository.AddProductSale(sale);
-            return CreatedAtAction(nameof(Get), new { id = result.Id }, sale);
+            return CreatedAtAction(nameof(Get), new { id = result.Id }, result);
         }
 
         // PUT: api/ProductSale/{id}

@@ -7,6 +7,7 @@ namespace pruebaAPI.Models
     public class ProductResponse
     {
         public Category? Category { set; get; }
+        public Guid CategoryId { set; get; }
         
         public Guid Id { get; set; }
         public string? Name { get; set; }

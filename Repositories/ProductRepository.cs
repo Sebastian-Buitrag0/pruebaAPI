@@ -29,7 +29,8 @@ namespace pruebaAPI.Repositories
                 Name = product.Name,
                 Description = product.Description,
                 Price = product.Price,
-                Category = product.Category
+                Category = product.Category,
+                CategoryId = product.CategoryId
             };
         }
 
@@ -54,7 +55,8 @@ namespace pruebaAPI.Repositories
                 Name = product.Name,
                 Description = product.Description,
                 Price = product.Price,
-                Category = product.Category
+                Category = product.Category,
+                CategoryId = product.CategoryId
             };
         }
 
@@ -67,15 +69,25 @@ namespace pruebaAPI.Repositories
                 Name = product.Name,
                 Description = product.Description,
                 Price = product.Price,
-                Category = product.Category
+                Category = product.Category,
+                CategoryId = product.CategoryId
             });
 
 
         public void UpdateProduct(Guid id, ProductRequest request)
         {
-            var product = _context.Products.Find(id);
+            var product = _context.Products
+                .Include(p => p.Category)
+                .FirstOrDefault(p => p.Id == id);
+            
             if (product != null)
             {
+                var categoryExists = _context.Categories.Any(c => c.Id == request.CategoryId);
+                if (!categoryExists)
+                {
+                    throw new KeyNotFoundException("La categoría especificada no existe");
+                }
+
                 product.Name = request.Name;
                 product.Description = request.Description;
                 product.Price = request.Price;
@@ -83,8 +95,6 @@ namespace pruebaAPI.Repositories
                 _context.Products.Update(product);
                 _context.SaveChanges();
             }
-
-            _context.SaveChanges();
         }
     }
 }
