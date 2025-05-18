@@ -14,6 +14,6 @@ namespace pruebaAPI.Models
         public string? Description { get; set; }
         
         [Required(ErrorMessage = "Price is required")]
-        public double Price { get; set; }
+        public decimal Price { get; set; }
     }
 }

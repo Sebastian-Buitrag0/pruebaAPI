@@ -1,4 +1,4 @@
-// filepath: /Users/futurodigital005/Desktop/Prosoft/Proyectos/dotnet/pruebaAPI/Controllers/CashBoxController.cs
+// filepath: /Users/futurodigital005/Desktop/Prosoft/Proyectos/dotnet/pruebaAPI/Controllers/CashMovementsController.cs
 using Microsoft.AspNetCore.Mvc;
 using pruebaAPI.Models;
 using pruebaAPI.Interfaces;
@@ -9,50 +9,50 @@ namespace pruebaAPI.Controllers
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
-    public class CashBoxController(ICashBoxRepository cashBoxRepository) : ControllerBase
+    public class CashMovementsController(ICashMovementsRepository cashMovementsRepository) : ControllerBase
     {
-        private readonly ICashBoxRepository _cashBoxRepository = cashBoxRepository;
+        private readonly ICashMovementsRepository _cashMovementsRepository = cashMovementsRepository;
 
         [HttpGet]
-        public ActionResult<IEnumerable<CashBoxResponse>> Get()
+        public ActionResult<IEnumerable<CashMovementsResponse>> Get()
         {
-            return Ok(_cashBoxRepository.GetCashBoxes());
+            return Ok(_cashMovementsRepository.GetCashMovements());
         }
 
         [HttpGet("{id}")]
-        public ActionResult<CashBoxResponse> Get(Guid id)
+        public ActionResult<CashMovementsResponse> Get(Guid id)
         {
-            var cashBox = _cashBoxRepository.GetCashBox(id);
-            if (cashBox == null)
+            var cashMovements = _cashMovementsRepository.GetCashMovements(id);
+            if (cashMovements == null)
                 return NotFound();
 
-            return Ok(cashBox);
+            return Ok(cashMovements);
         }
 
         [HttpPost]
-        public ActionResult Add([FromBody] CashBoxRequest request)
+        public ActionResult Add([FromBody] CashMovementsRequest request)
         {
-            var result = _cashBoxRepository.AddCashBox(request);
+            var result = _cashMovementsRepository.AddCashMovements(request);
             return CreatedAtAction(nameof(Get), new { id = result.Id }, request);
         }
 
         [HttpPut("{id}")]
-        public ActionResult Update(Guid id, [FromBody] CashBoxRequest request)
+        public ActionResult Update(Guid id, [FromBody] CashMovementsRequest request)
         {
-            var cashBox = _cashBoxRepository.GetCashBox(id);
-            if (request == null || id != cashBox.Id)
+            var CashMovements = _cashMovementsRepository.GetCashMovements(id);
+            if (request == null || id != CashMovements.Id)
             {
                 return BadRequest();
             }
 
-            _cashBoxRepository.UpdateCashBox(id, request);
+            _cashMovementsRepository.UpdateCashMovements(id, request);
             return NoContent();
         }
 
         [HttpDelete("{id}")]
         public ActionResult Delete(Guid id)
         {
-            _cashBoxRepository.DeleteCashBox(id);
+            _cashMovementsRepository.DeleteCashMovements(id);
             return NoContent();
         }
     }

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace pruebaAPI.Models
 {
-    public class CashBoxRequest
+    public class CashMovementsRequest
     {
         [Required(ErrorMessage = "Date is required")]
         public DateTime Date { get; set; }

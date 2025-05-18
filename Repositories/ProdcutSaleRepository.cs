@@ -16,10 +16,11 @@ namespace pruebaAPI.Repositories
               throw new ArgumentNullException(nameof(request.Product));
               
           var product = _context.Products.FirstOrDefault(r => r.Id == request.Product) ?? throw new ArgumentException("Product not found");
-            var productSale = new ProductSale{
+            var productSale = new ProductSale
+            {
                 Product = product,
-                Amount = request.Quantity * product.Price,
-                Quantity = request.Quantity
+                Quantity = request.Quantity,
+                PriceAtSale = product.Price,
             };
 
            _context.Add(productSale);
@@ -29,8 +30,8 @@ namespace pruebaAPI.Repositories
             {
                 Id = productSale.Id,
                 Product = product,
-                Amount = request.Quantity*product.Price,
-                Quantity = productSale.Quantity
+                Quantity = productSale.Quantity,
+                PriceAtSale = product.Price,
             };
         }
 
@@ -57,8 +58,8 @@ namespace pruebaAPI.Repositories
             {
                 Id = productSale.Id,
                 Product = productSale.Product,
-                Amount = productSale.Amount,
-                Quantity = productSale.Quantity
+                Quantity = productSale.Quantity,
+                PriceAtSale = productSale.PriceAtSale,
             };
         }
 
@@ -71,8 +72,8 @@ namespace pruebaAPI.Repositories
                 {
                     Id = productSale.Id,
                     Product = productSale.Product,
-                    Amount = productSale.Amount,
-                    Quantity = productSale.Quantity
+                    Quantity = productSale.Quantity,
+                    PriceAtSale = productSale.PriceAtSale,
                 });
         }
 
@@ -84,7 +85,6 @@ namespace pruebaAPI.Repositories
                 if (productSale.Product == null)
                     throw new InvalidOperationException("Product is missing for this sale.");
                 productSale.Quantity = updatedProductSale.Quantity;
-                productSale.Amount = updatedProductSale.Quantity * productSale.Product.Price;
                 _context.ProductSales.Update(productSale);
                 _context.SaveChanges();
             }

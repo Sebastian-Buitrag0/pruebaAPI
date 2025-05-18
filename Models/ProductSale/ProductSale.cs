@@ -6,9 +6,9 @@ namespace pruebaAPI.Models
     public class ProductSale
     {
         public Guid Id = Guid.NewGuid();
-        public required Product? Product { get; set; }
-        public double Amount { get; set; }
+        public Product? Product { get; set; }
         public int Quantity { get; set; }
+        public decimal PriceAtSale { get; set; }
 
     }
 }

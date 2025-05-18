@@ -1,3 +1,4 @@
+using System;
 using Microsoft.EntityFrameworkCore;
 
 namespace pruebaAPI.Models
@@ -7,8 +8,8 @@ namespace pruebaAPI.Models
     {
         public Guid Id { get; set; }
         public Product? Product { get; set; }
-        public double Amount { get; set; }
+        public decimal Amount { get; set; }
         public int Quantity { get; set; }
-
+        public decimal PriceAtSale { get; set; }
     }
 }

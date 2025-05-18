@@ -10,7 +10,7 @@ namespace pruebaAPI.Models
 
         public Guid Id { set; get; }
         public DateTime SaleDate { set; get; }
-        public double Amount { set; get; }
+        public decimal Amount { set; get; }
         public int Quantity { set; get; }
     }
 }
