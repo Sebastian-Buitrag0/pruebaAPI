@@ -82,6 +82,7 @@ builder.Services.AddScoped<IUserRespoitory, UserRepository>();
 builder.Services.AddScoped<IUserDataRepository, UserDataRepository>();
 builder.Services.AddScoped<IProductSale, ProductSaleRepository>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+builder.Services.AddScoped<ICashMovementsRepository, CashMovementsRepository>();
 builder.Services.AddScoped<TokenGenerate>();
 
 var app = builder.Build();

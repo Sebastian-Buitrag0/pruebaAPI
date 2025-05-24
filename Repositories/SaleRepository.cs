@@ -13,19 +13,23 @@ namespace pruebaAPI.Repositories
         {
             var user = _context.Users.Find(request.User) ?? throw new KeyNotFoundException("User not found");
             var products = new List<ProductSale>();
-            foreach (var productId in request.ProductsSale)
+            foreach (var productId in request.ProductsSale) // Iterates through product IDs from the request
             {
-            var product = _context.Products.Find(productId) ?? throw new KeyNotFoundException($"Product not found: {productId}");
-            products.Add(new ProductSale { Product = product });
+                // Line 18: Throws exception if productId is not found in _context.Products
+                var product = _context.ProductSales
+                .Include(ps => ps.Product)
+                    .ThenInclude(p => p!.Category)
+                .FirstOrDefault(ps => ps.Id == productId) ?? throw new KeyNotFoundException($"Product not found: {productId}");
+                products.Add(new ProductSale { Product = product.Product });
             }
             var sale = new Sale
             {
-            Id = Guid.NewGuid(),
-            SaleDate = DateTime.UtcNow,
-            User = user,
-            Products = products,
-            Amount = products.Sum(ps => ps.Product!.Price),
-            Quantity = products.Count,
+                Id = Guid.NewGuid(),
+                SaleDate = DateTime.UtcNow,
+                User = user,
+                Products = products,
+                Amount = products.Sum(ps => ps.Product!.Price),
+                Quantity = products.Count,
             };
 
             _context.Sales.Add(sale);
@@ -33,12 +37,12 @@ namespace pruebaAPI.Repositories
 
             return new SaleResponse
             {
-            Id = sale.Id,
-            SaleDate = sale.SaleDate,
-            Amount = sale.Amount,
-            Quantity = sale.Quantity,
-            User = sale.User,
-            Products = sale.Products
+                Id = sale.Id,
+                SaleDate = sale.SaleDate,
+                Amount = sale.Amount,
+                Quantity = sale.Quantity,
+                User = sale.User,
+                Products = sale.Products
             };
         }
 

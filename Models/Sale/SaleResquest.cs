@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace pruebaAPI.Models
 {
+    
     public class SaleRequest
     {
         [Required(ErrorMessage = "User is required")]

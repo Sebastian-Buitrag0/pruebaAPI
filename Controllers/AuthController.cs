@@ -26,7 +26,7 @@ namespace pruebaAPI.Controllers
                 var (accessToken, refreshToken) = _tokenGenerate.GenerateTokens(user);
                 _authRepository.SaveRefreshToken(refreshToken);
                 _authRepository.ValidateUniqueUser(user!.Id);
-                return Ok(new { accessToken, refreshToken.Token });
+                return Ok(new { accessToken, refreshToken });
             }
             catch (KeyNotFoundException ex)
             {
